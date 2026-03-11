@@ -24,7 +24,7 @@ const notificarNuevaReserva = async (reserva) => {
     const message = await client.messages.create({
       from,
       to,
-      contentSid: 'HX64ab34cc0058bc72526adfecfa80fbd8',
+      contentSid: 'HXa7eb032f2dc2425d5ddcb68db3fdea12',
       contentVariables: JSON.stringify({
         1: reserva.fecha,
         2: reserva.hora,
