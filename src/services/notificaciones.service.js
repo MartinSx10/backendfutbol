@@ -5,44 +5,29 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const from = process.env.TWILIO_WHATSAPP_FROM;
 const to = process.env.ADMIN_WHATSAPP_TO;
 
+const client = twilio(accountSid, authToken);
+
 const notificarNuevaReserva = async (reserva) => {
-  if (!accountSid || !authToken || !from || !to) {
-    console.log('Faltan variables de entorno para WhatsApp');
-    return;
-  }
-
-  if (!accountSid.startsWith('AC')) {
-    console.log('TWILIO_ACCOUNT_SID inválido. Debe comenzar con AC');
-    return;
-  }
-
-  let client;
-
-  try {
-    client = twilio(accountSid, authToken);
-  } catch (error) {
-    console.error('No se pudo inicializar Twilio:', error.message);
-    return;
-  }
-
-  const body =
-    `Nueva reserva creada\n` +
-    `Fecha: ${reserva.fecha}\n` +
-    `Hora: ${reserva.hora}\n` +
-    `Nombre: ${reserva.nombre}\n` +
-    `Teléfono: ${reserva.telefono}\n` +
-    `Estado: ${reserva.estado}`;
-
   try {
     const message = await client.messages.create({
       from,
       to,
-      body,
+      contentSid: 'HXb5b62575e6e4ff6129ad7c8efe1f983e',
+      contentVariables: JSON.stringify({
+        1: reserva.fecha,
+        2: reserva.hora,
+      }),
     });
 
     console.log('WhatsApp enviado correctamente:', message.sid);
   } catch (error) {
-    console.error('Error al enviar WhatsApp:', error.message);
+    console.error('Error al enviar WhatsApp:', {
+      message: error.message,
+      code: error.code,
+      status: error.status,
+      moreInfo: error.moreInfo,
+      details: error.details,
+    });
   }
 };
 
