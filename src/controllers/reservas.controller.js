@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const { notificarNuevaReserva } = require('../services/notificaciones.service');
 
 const getReservas = (req, res) => {
   const { fecha } = req.query;
@@ -50,14 +51,18 @@ const createReserva = (req, res) => {
             return res.status(500).json({ error: 'Error al crear reserva' });
           }
 
-          res.status(201).json({
+          const nuevaReserva = {
             id: this.lastID,
             fecha,
             hora,
             nombre,
             telefono,
             estado,
-          });
+          };
+
+          notificarNuevaReserva(nuevaReserva);
+
+          res.status(201).json(nuevaReserva);
         }
       );
     }
