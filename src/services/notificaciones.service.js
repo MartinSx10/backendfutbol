@@ -5,17 +5,23 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const from = process.env.TWILIO_WHATSAPP_FROM;
 const to = process.env.ADMIN_WHATSAPP_TO;
 
-const client =
-  accountSid && authToken ? twilio(accountSid, authToken) : null;
-
 const notificarNuevaReserva = async (reserva) => {
   if (!accountSid || !authToken || !from || !to) {
     console.log('Faltan variables de entorno para WhatsApp');
     return;
   }
 
-  if (!client) {
-    console.log('No se pudo inicializar Twilio');
+  if (!accountSid.startsWith('AC')) {
+    console.log('TWILIO_ACCOUNT_SID inválido. Debe comenzar con AC');
+    return;
+  }
+
+  let client;
+
+  try {
+    client = twilio(accountSid, authToken);
+  } catch (error) {
+    console.error('No se pudo inicializar Twilio:', error.message);
     return;
   }
 
