@@ -8,9 +8,11 @@ const {
   deleteReserva,
 } = require('../controllers/reservas.controller');
 
-router.get('/', getReservas);
+const { verifyToken } = require('../middlewares/auth.middleware');
+
 router.post('/', createReserva);
-router.put('/:id/estado', updateEstadoReserva);
-router.delete('/:id', deleteReserva);
+router.get('/', verifyToken, getReservas);
+router.put('/:id/estado', verifyToken, updateEstadoReserva);
+router.delete('/:id', verifyToken, deleteReserva);
 
 module.exports = router;
