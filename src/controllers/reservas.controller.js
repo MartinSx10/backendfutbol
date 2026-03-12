@@ -22,7 +22,25 @@ const getReservas = (req, res) => {
     res.json(rows);
   });
 };
+const getDisponibilidad = (req, res) => {
+  const { fecha } = req.query;
 
+  if (!fecha) {
+    return res.status(400).json({ error: 'La fecha es obligatoria' });
+  }
+
+  db.all(
+    `SELECT hora, estado FROM reservas WHERE fecha = ? ORDER BY hora ASC`,
+    [fecha],
+    (err, rows) => {
+      if (err) {
+        return res.status(500).json({ error: 'Error al obtener disponibilidad' });
+      }
+
+      res.json(rows);
+    }
+  );
+};
 const createReserva = (req, res) => {
   const { fecha, hora, nombre, telefono, estado } = req.body;
 
@@ -114,6 +132,7 @@ const deleteReserva = (req, res) => {
 
 module.exports = {
   getReservas,
+  getDisponibilidad,
   createReserva,
   updateEstadoReserva,
   deleteReserva,
