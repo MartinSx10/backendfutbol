@@ -22,18 +22,17 @@ const notificarNuevaReserva = async (reserva) => {
 
   try {
     const message = await client.messages.create({
-      from,
-      to,
-      contentSid: 'HXa7eb032f2dc2425d5ddcb68db3fdea12',
-      contentVariables: JSON.stringify({
-        1: reserva.fecha,
-        2: reserva.hora,
-        3: reserva.nombre,
-        4: reserva.telefono,
-        5: reserva.estado,
-      }),
-      statusCallback: 'https//backendfutbol-production.up.railway.app/api/notificaciones/status',
-    });
+  from,
+  to,
+  contentSid: 'HXa7eb032f2dc2425d5ddcb68db3fdea12',
+  contentVariables: JSON.stringify({
+    1: reserva.fecha,
+    2: reserva.hora,
+    3: reserva.nombre,
+    4: reserva.telefono,
+    5: reserva.estado,
+  }),
+});
 
     console.log('Twilio aceptó el mensaje:', message.sid);
   } catch (error) {
