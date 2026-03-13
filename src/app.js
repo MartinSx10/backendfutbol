@@ -8,9 +8,10 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/reservas', reservasRoutes);
-const notificacionesRoutes = require('./routes/notificaciones.routes');
+app.use('/api/notificaciones', notificacionesRoutes);
 
 module.exports = app;
