@@ -32,9 +32,10 @@ const notificarNuevaReserva = async (reserva) => {
         4: reserva.telefono,
         5: reserva.estado,
       }),
+      statusCallback: 'https//backendfutbol-production.up.railway.app/api/notificaciones/status',
     });
 
-    console.log('WhatsApp enviado correctamente:', message.sid);
+    console.log('Twilio aceptó el mensaje:', message.sid);
   } catch (error) {
     console.error('Error al enviar WhatsApp:', {
       message: error.message,
